@@ -3,8 +3,10 @@ import pandas as pd
 from dotenv import load_dotenv
 from langchain_groq import ChatGroq
 from langchain_experimental.agents.agent_toolkits import create_pandas_dataframe_agent
-load_dotenv()  # Load environment variables from .env file
-st.title("CSV Data Analyst Agent")
+
+load_dotenv()
+
+st.title("📊 CSV Data Analyst Agent")
 
 uploaded_file = st.file_uploader("Upload CSV", type="csv")
 
@@ -15,10 +17,30 @@ if uploaded_file is not None:
     st.write("Dataset Preview")
     st.dataframe(df.head())
 
-    question = st.text_input("Ask question about dataset")
+    # Initialize chat history
+    if "messages" not in st.session_state:
+        st.session_state.messages = []
 
-    if question:
+    # Show previous messages
+    for message in st.session_state.messages:
+        with st.chat_message(message["role"]):
+            st.markdown(message["content"])
 
+    # Chat input
+    prompt = st.chat_input("Ask a question about the dataset")
+
+    if prompt:
+
+        # Show user message
+        with st.chat_message("user"):
+            st.markdown(prompt)
+
+        st.session_state.messages.append({
+            "role": "user",
+            "content": prompt
+        })
+
+        # LLM
         llm = ChatGroq(
             model="llama-3.1-8b-instant",
             temperature=0.6
@@ -31,6 +53,15 @@ if uploaded_file is not None:
             allow_dangerous_code=True
         )
 
-        response = agent.invoke(question)
+        # Run agent
+        response = agent.invoke(prompt)
+        answer = response["output"]
 
-        st.write(response["output"])
+        # Show assistant message
+        with st.chat_message("assistant"):
+            st.markdown(answer)
+
+        st.session_state.messages.append({
+            "role": "assistant",
+            "content": answer
+        })
