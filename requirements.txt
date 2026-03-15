@@ -1,0 +1,47 @@
+# Core LLM Providers
+openai
+groq
+google-generativeai
+mistralai
+
+# LangChain Ecosystem
+langchain
+langchain-openai
+langchain-community
+langchain-core
+langchain-google-genai
+langchain_huggingface
+langchain_groq
+# Vector Store
+faiss-cpu
+chromadb
+
+# Tokenizer
+tiktoken
+
+# API Framework (if building backend)
+fastapi
+uvicorn
+
+# Environment Variables
+python-dotenv
+
+# Data Handling
+pydantic
+requests
+
+# Optional (for RAG / document loaders)
+pypdf
+beautifulsoup4
+lxml
+
+# Optional (for Jupyter development)
+notebook
+ipykernel
+
+#transformers ,pytoch is required for HuggingFace models
+transformers
+torch
+torchvision
+torchaudio
+pandas
